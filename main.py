@@ -15,7 +15,7 @@ data_dir = "./Data"
 batch_size_train = 64
 batch_size_test = 32
 learning_rate = 0.001
-epochs = 1
+epochs = 5
 load_chkpt = False
 
 def main():
