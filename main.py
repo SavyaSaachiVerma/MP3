@@ -118,6 +118,8 @@ def main():
                 'conv_net_model': conv_net.state_dict(),
                 'epoch': epoch,
             }
+            if not os.path.isdir('./Checkpoint'):
+                os.mkdir('Checkpoint')
             torch.save(state, './Checkpoint/model_state.pt')
 
     print("Training Completed")
