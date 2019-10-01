@@ -15,7 +15,7 @@ data_dir = "./Data"
 batch_size_train = 64
 batch_size_test = 32
 learning_rate = 0.001
-epochs = 5
+epochs = 1
 load_chkpt = False
 
 
@@ -149,10 +149,10 @@ def main():
             # arr = (predicted_label == labels).numpy()
             total_correct += predicted_label.eq(labels.long()).float().sum().item()
             accuracy = total_correct / total_samples
-
-            print('Testing [batch: %d] loss: %.3f, accuracy: %.5f' %
-                  (i + 1, cur_loss, accuracy))
-    print("Testing Completed with accuracy:" + accuracy)
+            if i % 50 == 0:
+                print('Testing [batch: %d] loss: %.3f, accuracy: %.5f' %
+                      (i + 1, cur_loss, accuracy))
+    print("Testing Completed with accuracy:" + str(accuracy))
 
 
 if __name__ == "__main__":
