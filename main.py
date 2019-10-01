@@ -18,8 +18,8 @@ learning_rate = 0.001
 epochs = 1
 load_chkpt = False
 
-def main():
 
+def main():
     """Transformations for Augmenting Training and Test Dataset"""
     augment_train_ds = transforms.Compose([
         transforms.RandomCrop(32, padding=2),
@@ -38,7 +38,6 @@ def main():
     torch.cuda.manual_seed(0)
     np.random.seed(0)
     random.seed(0)
-
 
     """Loading the datasets from torchvision dataset library"""
     train_ds = torchvision.datasets.CIFAR10(root=data_dir, train=True, download=True,
@@ -99,18 +98,18 @@ def main():
             optimizer.step()
 
             cur_loss += loss.item()
-            cur_loss /= (i+1)
+            cur_loss /= (i + 1)
 
             _, predicted_label = torch.max(outputs, 1)
             # print(predicted_label.shape, labels.shape)
             total_samples += labels.shape[0]
-            arr = (predicted_label == labels).numpy()
+            # arr = (predicted_label == labels).numpy()
             # print(np.sum(arr))
-            total_correct += np.sum(arr)
-            accuracy = total_correct/total_samples
-
-            print('Training [epoch: %d, batch: %d] loss: %.3f, accuracy: %.5f' %
-                  (epoch + 1, i + 1, cur_loss, accuracy))
+            total_correct += predicted_label.eq(labels.long()).float().sum().item()
+            accuracy = total_correct / total_samples
+            if i % 100 == 0:
+                print('Training [epoch: %d, batch: %d] loss: %.3f, accuracy: %.5f' %
+                      (epoch + 1, i + 1, cur_loss, accuracy))
 
         if epoch % 5 == 0:
             print('==> Saving model ...')
@@ -140,15 +139,15 @@ def main():
             inputs = Variable(inputs)
 
             outputs = conv_net(inputs)
-            loss = loss_fn(outputs, labels.long)
+            loss = loss_fn(outputs, labels)
 
             cur_loss += loss.item()
-            cur_loss /= (i+1)
+            cur_loss /= (i + 1)
 
             _, predicted_label = torch.max(outputs, 1)
             total_samples += labels.shape[0]
-            arr = (predicted_label == labels).numpy()
-            total_correct += np.sum(arr)
+            # arr = (predicted_label == labels).numpy()
+            total_correct += predicted_label.eq(labels.long()).float().sum().item()
             accuracy = total_correct / total_samples
 
             print('Testing [batch: %d] loss: %.3f, accuracy: %.5f' %
@@ -158,4 +157,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
