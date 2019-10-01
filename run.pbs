@@ -6,7 +6,7 @@
 #PBS -o $PBS_JOBID.out
 #PBS -m bea
 #PBS -M ssverma2@illinois.edu
-
+cd /u/training/tra287/mp3
 . /opt/modules/default/init/bash # NEEDED to add module commands to shell
 module load python/2.0.1
 #module load cudatoolkit
