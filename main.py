@@ -25,7 +25,7 @@ batch_size_test = 32
 """learning rate for optimization algorithm (USED ADAM)"""
 learning_rate = 0.001
 """number of times to traverse the entire training dataset"""
-epochs = 1
+epochs = 60
 """bool: specifies if the model's state should be loaded from the checkpoint file"""
 load_chkpt = False
 
@@ -115,7 +115,7 @@ def main():
             loss.backward()
 
             """ Overflow error in the optimizer if the step size is not reset."""
-            if epoch > 8:
+            if epoch > 7:
                 for group in optimizer.param_groups:
                     for p in group['params']:
                         state = optimizer.state[p]
